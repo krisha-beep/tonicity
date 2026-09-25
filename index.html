@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tonicity — wearable spasticity care for children with cerebral palsy</title>
+<meta name="description" content="Tonicity is a wearable, closed-loop neuromuscular stimulation sleeve designed to ease spasticity in children with cerebral palsy, at home and at a price Indian families can afford.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#15254A; --text:#3B4660; --teal:#1B786F; --pulse:#2F6FE0; --mint:#E6F1EE; --paper:#FFFFFF;
+  --line:#D5E3DF; --muted:#5B667D; --note:#FFF4E5; --noteText:#8A4B08;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ink:#E8EEF8; --text:#C4CCDA; --teal:#5CC3B5; --pulse:#7FA8FF; --mint:#15242A; --paper:#0E1A24;
+    --line:#29404A; --muted:#9AA6B8; --note:#3A2A12; --noteText:#F6C98A;
+  }
+}
+:root[data-theme="dark"]{
+  --ink:#E8EEF8; --text:#C4CCDA; --teal:#5CC3B5; --pulse:#7FA8FF; --mint:#15242A; --paper:#0E1A24;
+  --line:#29404A; --muted:#9AA6B8; --note:#3A2A12; --noteText:#F6C98A;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px); scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+body{margin:0; background:var(--paper); color:var(--text); font-family:var(--body); font-size:1.075rem; line-height:1.6}
+img,svg{max-width:100%}
+a{color:var(--teal)}
+:focus-visible{outline:3px solid var(--pulse); outline-offset:3px; border-radius:4px}
+.skip{position:absolute; left:-999px; top:8px; background:var(--ink); color:var(--paper); padding:.5rem .8rem; border-radius:6px}
+.skip:focus{left:12px; z-index:10}
+.wrap{max-width:1080px; margin:0 auto; padding:0 1.5rem}
+h1,h2,h3{font-family:var(--display); color:var(--ink); line-height:1.12; margin:0}
+h1{font-size:clamp(2rem, 4.4vw, 3.15rem); font-weight:800; letter-spacing:-.02em; max-width:17ch}
+h2{font-size:clamp(1.6rem, 3.2vw, 2.3rem); font-weight:700; letter-spacing:-.01em; max-width:22ch}
+h3{font-size:1.15rem; font-weight:700}
+p{margin:.6rem 0 0; max-width:66ch}
+
+header.top{display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:1.1rem 0}
+.brand{font-family:var(--display); font-weight:800; font-size:1.45rem; color:var(--ink); text-decoration:none; letter-spacing:.01em; display:flex; align-items:center; gap:.5rem}
+.brand svg{width:28px; height:28px}
+nav ul{display:flex; gap:1.2rem; list-style:none; margin:0; padding:0; flex-wrap:wrap}
+nav a{color:var(--text); text-decoration:none; font-size:.98rem}
+nav a:hover{color:var(--teal); text-decoration:underline}
+@media (max-width:760px){ nav{display:none} }
+
+.hero{display:grid; grid-template-columns:1fr 1.05fr; gap:2.5rem; align-items:center; padding:2.5rem 0 3.5rem}
+.hero .lede{font-size:1.2rem; color:var(--text)}
+.status{margin-top:1.4rem; padding:.8rem 1rem; background:var(--mint); border-radius:10px; font-size:1rem; max-width:52ch}
+.actions{display:flex; gap:.8rem; flex-wrap:wrap; margin-top:1.4rem}
+.btn{display:inline-block; padding:.75rem 1.2rem; border-radius:999px; font-weight:700; text-decoration:none; font-size:1rem}
+.btn.primary{background:var(--teal); color:#fff}
+:root[data-theme="dark"] .btn.primary{color:#0E1A24}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .btn.primary{color:#0E1A24} }
+.btn.ghost{border:2px solid var(--teal); color:var(--teal)}
+
+.signal{background:var(--mint); border-radius:22px; padding:1.4rem 1.4rem 1rem}
+.signal svg{display:block; width:100%; height:auto}
+.signal figcaption{font-size:.92rem; color:var(--muted); margin-top:.6rem}
+.trace{fill:none; stroke:var(--ink); stroke-width:2.4; stroke-linejoin:round; stroke-linecap:round}
+.stim{fill:none; stroke:var(--pulse); stroke-width:2.2}
+.base{stroke:var(--line); stroke-width:1.5}
+.cut{stroke:var(--teal); stroke-width:1.5; stroke-dasharray:4 5}
+.lbl{font-family:var(--body); font-size:17px; fill:var(--muted)}
+.lbl.strong{fill:var(--teal); font-weight:700}
+@media (prefers-reduced-motion: no-preference){
+  .trace{stroke-dasharray:2600; stroke-dashoffset:2600; animation:draw 3.2s ease-out .3s forwards}
+  .stim{opacity:0; animation:appear .6s ease-out 1.8s forwards}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  @keyframes appear{to{opacity:1}}
+}
+
+section{padding:3.5rem 0; border-top:1px solid var(--line)}
+.split{display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:start}
+.options{display:grid; grid-template-columns:1fr 1fr; gap:1.6rem 2rem; margin-top:1.8rem}
+.options h3{font-size:1.05rem}
+.options p{margin-top:.3rem; font-size:1rem}
+
+ol.steps{list-style:none; counter-reset:s; padding:0; margin:2rem 0 0; display:grid; grid-template-columns:repeat(4,1fr); gap:1.4rem}
+ol.steps li{counter-increment:s; position:relative; padding-top:3.1rem}
+ol.steps li::before{content:counter(s); position:absolute; top:0; left:0; width:2.3rem; height:2.3rem; border-radius:50%; display:grid; place-items:center; font-family:var(--display); font-weight:800; background:var(--ink); color:var(--paper)}
+ol.steps li:not(:last-child)::after{content:""; position:absolute; top:1.15rem; left:2.9rem; right:-.8rem; height:2px; background:var(--line)}
+ol.steps p{font-size:1rem; margin-top:.35rem}
+
+.band{background:var(--mint); border-radius:22px; padding:2.2rem; margin-top:2.2rem; display:grid; grid-template-columns:repeat(3,1fr); gap:2rem}
+.band h3{color:var(--teal)}
+.band p{font-size:1rem; margin-top:.35rem}
+
+.price{display:flex; align-items:baseline; gap:1.2rem; flex-wrap:wrap; margin-top:1.4rem}
+.price b{font-family:var(--display); font-size:2.4rem; color:var(--teal); line-height:1}
+.price s{font-family:var(--display); font-size:1.5rem; color:var(--muted)}
+
+.roadmap{margin-top:1.8rem; display:grid; grid-template-columns:1fr 2fr; gap:2.5rem}
+.done li,.next li{margin:.45rem 0}
+.done{padding-left:1.2rem}
+.next{padding-left:1.4rem}
+.roadmap h3{margin-bottom:.4rem}
+
+.team{display:grid; grid-template-columns:repeat(3,1fr); gap:1.4rem; margin-top:1.8rem; list-style:none; padding:0}
+.team li{padding:1.2rem; border:1.5px solid var(--line); border-radius:16px}
+.team .ini{width:3rem; height:3rem; border-radius:50%; background:var(--ink); color:var(--paper); display:grid; place-items:center; font-family:var(--display); font-weight:800; margin-bottom:.8rem}
+.team li.lead .ini{background:var(--teal)}
+.team em{display:block; font-style:normal; font-size:.88rem; font-weight:700; color:var(--teal); margin-bottom:.15rem}
+.team b{display:block; color:var(--ink)}
+.team span{font-size:.95rem; color:var(--muted)}
+
+.contact{background:var(--ink); color:var(--paper); border-radius:22px; padding:2.4rem; margin:.5rem 0 0}
+.contact h2{color:var(--paper)}
+.contact p{color:var(--paper); opacity:.9}
+.contact a{color:var(--paper); font-weight:700; overflow-wrap:anywhere}
+.fill{background:var(--note); color:var(--noteText); padding:.1rem .45rem; border-radius:6px; font-weight:700}
+.facts{display:grid; grid-template-columns:1fr 1fr; gap:1.4rem 2.5rem; margin:2rem 0 0}
+.facts dt{font-weight:700; color:var(--teal); font-size:.95rem}
+.facts dd{margin:.25rem 0 0; color:var(--ink); font-size:1.05rem}
+.evidence{font-size:.95rem; color:var(--muted); margin-top:1.8rem}
+footer{padding:2rem 0 2.5rem; font-size:.92rem; color:var(--muted)}
+footer p{max-width:80ch}
+
+@media (max-width:900px){
+  .hero,.split,.roadmap{grid-template-columns:1fr}
+  ol.steps{grid-template-columns:1fr 1fr}
+  ol.steps li::after{display:none}
+  .band{grid-template-columns:1fr}
+  .team{grid-template-columns:1fr 1fr}
+}
+@media (max-width:540px){
+  .options,ol.steps,.team,.facts{grid-template-columns:1fr}
+  .contact,.band{padding:1.6rem}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="#top" aria-label="Tonicity home">
+    <svg viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="13" fill="var(--teal)"/><path d="M5 15 L9 15 L11 9 L14 20 L17 12 L19 15 L23 15" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Tonicity
+  </a>
+  <nav aria-label="Sections"><ul>
+    <li><a href="#problem">The problem</a></li>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#study">Clinical study</a></li>
+    <li><a href="#stage">Where we are</a></li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul></nav>
+</header>
+
+<main id="main">
+<div class="hero" id="top">
+  <div>
+    <h1>A wearable that eases spasticity in children with cerebral palsy</h1>
+    <p class="lede">Tonicity is a soft sleeve that reads a child's muscle signals and gently stimulates the opposing muscle, helping the tight one relax. It adapts in real time, pauses itself if a spasm starts, and targets a price of ₹8,000–9,000 so families can use it every day at home.</p>
+    <p class="status">We have built a prototype and companion app and received ethics clearance for testing. We are now seeking seed funding for safety testing and a first pilot with children.</p>
+    <div class="actions">
+      <a class="btn primary" href="#contact">Contact the team</a>
+      <a class="btn ghost" href="#how">See how it works</a>
+    </div>
+  </div>
+  <figure class="signal" style="margin:0">
+    <svg viewBox="0 0 640 262" role="img" aria-labelledby="sigT sigD">
+      <title id="sigT">Illustration of muscle activity before and after stimulation</title>
+      <desc id="sigD">On the left, the spastic muscle's electrical activity is high and erratic. After Tonicity begins pulsing the opposing muscle, the activity settles to a calm, low level.</desc>
+      <line class="base" x1="0" y1="222" x2="640" y2="222"/>
+      <line class="cut" x1="300" y1="30" x2="300" y2="240"/>
+      <text class="lbl" x="2" y="18">Tight muscle activity</text>
+      <text class="lbl strong" x="310" y="18">Tonicity switches on</text>
+      <text class="lbl" x="2" y="260">Stimulation to opposing muscle</text>
+      <path class="trace" d="M0,88.5 L5,91.8 L10,106.3 L15,95.6 L20,63.6 L25,79.2 L30,76.7 L35,105.6 L40,132.9 L45,137.9 L50,75.4 L55,113.4 L60,72.9 L65,148.9 L70,126.8 L75,74.4 L80,133.2 L85,125.2 L90,76.4 L95,115.1 L100,57.5 L105,123.3 L110,136.9 L115,59.0 L120,104.8 L125,124.1 L130,109.1 L135,76.2 L140,67.6 L145,89.8 L150,112.9 L155,153.7 L160,149.4 L165,167.1 L170,101.0 L175,81.0 L180,123.3 L185,136.1 L190,73.9 L195,83.8 L200,131.7 L205,140.2 L210,64.1 L215,90.5 L220,82.8 L225,140.8 L230,80.5 L235,152.1 L240,114.7 L245,136.4 L250,103.0 L255,131.8 L260,96.5 L265,117.0 L270,67.4 L275,73.9 L280,151.8 L285,81.4 L290,144.8 L295,63.8 L300,96.5 L306,65.2 L312,119.3 L318,124.3 L324,141.9 L330,105.6 L336,112.5 L342,98.1 L348,92.7 L354,117.5 L360,121.1 L366,109.0 L372,113.7 L378,100.9 L384,107.8 L390,113.7 L396,111.2 L402,107.9 L408,104.6 L414,114.7 L420,107.9 L426,104.3 L432,112.3 L438,111.9 L444,113.0 L450,104.5 L456,103.1 L462,103.1 L468,105.8 L474,106.0 L480,112.4 L486,106.9 L492,105.5 L498,105.4 L504,103.9 L510,110.8 L516,112.5 L522,102.4 L528,106.2 L534,105.8 L540,111.8 L546,101.7 L552,108.9 L558,109.5 L564,114.1 L570,107.2 L576,109.8 L582,108.4 L588,110.9 L594,105.9 L600,110.9 L606,103.7 L612,109.2 L618,106.2 L624,111.9 L630,110.5 L636,112.0"/>
+      <path class="stim" d="M310,222 v-18 h4 v32 h4 v-14 M332,222 v-18 h4 v32 h4 v-14 M354,222 v-18 h4 v32 h4 v-14 M376,222 v-18 h4 v32 h4 v-14 M398,222 v-18 h4 v32 h4 v-14 M420,222 v-18 h4 v32 h4 v-14 M442,222 v-18 h4 v32 h4 v-14 M464,222 v-18 h4 v32 h4 v-14 M486,222 v-18 h4 v32 h4 v-14 M508,222 v-18 h4 v32 h4 v-14 M530,222 v-18 h4 v32 h4 v-14 M552,222 v-18 h4 v32 h4 v-14 M574,222 v-18 h4 v32 h4 v-14 M596,222 v-18 h4 v32 h4 v-14 M618,222 v-18 h4 v32 h4 v-14"/>
+    </svg>
+    <figcaption>Illustrative signal, not patient data. The device titrates stimulation from a low baseline using live EMG feedback.</figcaption>
+  </figure>
+</div>
+
+<section id="problem" aria-labelledby="pT">
+  <div class="split">
+    <div>
+      <h2 id="pT">Spasticity needs daily care. Most families can't get it.</h2>
+    </div>
+    <div>
+      <p>Cerebral palsy affects 2 to 4 of every 1,000 children born, and about 80% have the spastic form: muscles stay tight, pull joints out of line and make walking harder. Left unmanaged through the growth years, it leads to contractures, deformities and surgery.</p>
+    </div>
+  </div>
+  <div class="options">
+    <div><h3>Botulinum toxin injections</h3><p>They work, but need a specialist every 3–6 months and are painful and costly for families.</p></div>
+    <div><h3>Oral medicines such as baclofen</h3><p>They act on the whole body and can cause drowsiness and weakness.</p></div>
+    <div><h3>Physiotherapy</h3><p>It means frequent trips to a clinic, and gains fade without daily practice at home.</p></div>
+    <div><h3>Imported stimulation suits</h3><p>They can be used at home but cost around ₹6 lakh, out of reach for most families in India.</p></div>
+  </div>
+</section>
+
+<section id="how" aria-labelledby="hT">
+  <h2 id="hT">How Tonicity works</h2>
+  <p>Tonicity uses reciprocal inhibition, the body's own reflex: when one muscle contracts, its opposing muscle is signalled to relax.</p>
+  <ol class="steps">
+    <li><h3>Sense</h3><p>EMG sensors in the sleeve read tone in the tight muscle; motion sensors track the limb.</p></li>
+    <li><h3>Decide</h3><p>An on-device algorithm starts at a low intensity and adjusts each cycle from the live muscle signal.</p></li>
+    <li><h3>Stimulate</h3><p>Gentle electrical pulses contract the opposing muscle, helping the spastic one release.</p></li>
+    <li><h3>Stop safely</h3><p>Each cycle ends after 30 contractions or at signs of fatigue, and stops instantly on a sudden jerk. Once the day's target is met, the device locks for 12 hours.</p></li>
+  </ol>
+  <div class="band">
+    <div><h3>Built for growing children</h3><p>Sleeves, socks and gloves in child sizes. Electrode and sensor modules swap out as the child grows, instead of replacing the whole device.</p></div>
+    <div><h3>Comfortable to wear</h3><p>Mesh-backed hydrogel electrodes placed over each muscle's motor point, held steady by a semi-rigid frame.</p></div>
+    <div><h3>Connected to care</h3><p>A companion app shows parents each session. If an electrode comes loose or a part fails, stimulation stops and the parent and physiotherapist are alerted.</p></div>
+  </div>
+</section>
+
+<section aria-labelledby="wT">
+  <div class="split">
+    <div>
+      <h2 id="wT">Who it's for</h2>
+      <p>Children with spastic cerebral palsy at GMFCS levels I to III, who walk with or without aids, from toddlers starting weight-bearing therapy onward. It is designed for focal spasticity in the legs and arms, and our first study includes children under 13.</p>
+      <p>Care starts in the clinic: a clinician selects and fits the child and trains the family. Home sessions then run within the settings the clinic has set, with regular re-fitting as the child grows.</p>
+    </div>
+    <div>
+      <h2>What makes it different</h2>
+      <p>Most home stimulation devices run a programme set in advance. Tonicity listens to the muscle and adapts every cycle, is made for home use, and is designed around a growing child.</p>
+      <div class="price" aria-label="Target price ₹8,000 to ₹9,000, compared with about ₹6.17 lakh for an imported suit">
+        <b>₹8–9k</b><s>~₹6.17 lakh</s>
+      </div>
+      <p style="font-size:.95rem;color:var(--muted)">Our target price, compared with an imported stimulation suit.</p>
+    </div>
+  </div>
+</section>
+
+<section id="study" aria-labelledby="stT">
+  <div class="split">
+    <div><h2 id="stT">Our first clinical study</h2></div>
+    <div><p>Our feasibility study at Kasturba Medical College, Mangalore has ethics committee clearance, and CTRI registration is under way. It will test whether children can use Tonicity safely and regularly, and measure changes in movement, muscle tone and walking.</p></div>
+  </div>
+  <dl class="facts">
+    <div><dt>Design</dt><dd>Pre–post feasibility study over 12–18 months</dd></div>
+    <div><dt>Participants</dt><dd>20 children with cerebral palsy, under 13, at GMFCS levels I–III</dd></div>
+    <div><dt>Setting</dt><dd>Physiotherapy departments of hospitals affiliated to KMC Mangalore, with device engineering at NITK Surathkal</dd></div>
+    <div><dt>What we measure</dt><dd>Gross motor function (GMFM-88), spasticity (Modified Ashworth Scale), muscle strength, walking speed and video gait analysis, and hours of use logged by the device</dd></div>
+  </dl>
+  <p class="evidence">Why stimulation: in a 2022 scoping review of 26 studies with 558 participants with spastic CP, NMES reduced spasticity in most studies (Greve et al., Frontiers in Physiology).</p>
+</section>
+
+<section id="stage" aria-labelledby="sT">
+  <h2 id="sT">Where we are</h2>
+  <div class="roadmap">
+    <div>
+      <h3>Done</h3>
+      <ul class="done">
+        <li>System and electrode design</li>
+        <li>Closed-loop stimulation algorithm</li>
+        <li>Prototype device and companion app</li>
+        <li>Unit costing and clinical care pathway</li>
+        <li>Ethics committee clearance for testing</li>
+        <li>Protocol for a 20-child feasibility study</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Next 12 months</h3>
+      <ol class="next">
+        <li>Refine the prototype and complete bench testing</li>
+        <li>Electrical safety testing to IEC 60601 standards</li>
+        <li>CTRI registration, then the 20-child feasibility study</li>
+        <li>File a provisional patent and map the CDSCO approval pathway</li>
+      </ol>
+      <p>After that: a larger clinical study, CDSCO registration and a launch through partner rehabilitation clinics.</p>
+    </div>
+  </div>
+</section>
+
+<section id="team" aria-labelledby="tT">
+  <h2 id="tT">Team</h2>
+  <p>Clinicians from Kasturba Medical College, Mangalore and engineers from NITK Surathkal.</p>
+  <ul class="team">
+    <li class="lead"><div class="ini" aria-hidden="true">AP</div><em>Team lead</em><b>Dr Ashish John Prabhakar, MPT, PhD</b><span>Associate Professor and Unit Head of Physiotherapy, KMC Mangalore</span></li>
+    <li><div class="ini" aria-hidden="true">KV</div><em>Technical team lead</em><b>Dr Khyati Verma</b><span>Assistant Professor, Department of Mechanical Engineering, NITK Surathkal</span></li>
+    <li><div class="ini" aria-hidden="true">SN</div><em>Technical team</em><b>Dr Sanjeevi Nakka</b><span>Assistant Professor, Department of Mechanical Engineering, NITK Surathkal</span></li>
+    <li><div class="ini" aria-hidden="true">MT</div><em>Team member</em><b>Dr Medha Tripathy</b><span>Intern doctor, KMC Mangalore</span></li>
+    <li><div class="ini" aria-hidden="true">KJ</div><em>Team member</em><b>Krisha Janaswamy</b><span>Final-year MBBS student, KMC Mangalore</span></li>
+  </ul>
+</section>
+
+<div class="contact" id="contact">
+  <h2>Talk to us</h2>
+  <p>We'd like to hear from clinicians, therapists, parents, and partners who want to help us test and bring Tonicity to children who need it.</p>
+  <p>Email: <a href="mailto:krisha.kmcmlr2023@learner.manipal.edu">krisha.kmcmlr2023@learner.manipal.edu</a></p>
+</div>
+</main>
+
+<footer>
+  <p>Tonicity is an investigational device under development. It has not been approved for clinical use and is not available for sale.</p>
+  <p>© 2026 Tonicity team</p>
+</footer>
+</div>
+</body>
+</html>
